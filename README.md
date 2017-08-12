@@ -4,9 +4,7 @@ Array based waterfall
 [![Travis Build
 Status](https://img.shields.io/travis/indatawetrust/qot.svg)](https://travis-ci.org/indatawetrust/qot)
 
-
-
-### init
+### usage
 ```js
 import qot from 'qot';
 
