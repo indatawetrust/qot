@@ -1,0 +1,26 @@
+{
+  "name": "qot",
+  "version": "0.0.1",
+  "description": "Array based waterfall",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/indatawetrust/qot.git"
+  },
+  "keywords": [
+    "array",
+    "waterfall"
+  ],
+  "author": "indatawetrust",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/indatawetrust/qot/issues"
+  },
+  "homepage": "https://github.com/indatawetrust/qot#readme",
+  "devDependencies": {
+    "ava": "^0.21.0"
+  }
+}
