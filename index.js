@@ -1,29 +1,52 @@
 let funcs = [];
 
-const qot = () => {
-  return {
-    add: (...func) => {
-      func = Array.isArray(func) ? func : [func];
-      funcs = funcs.concat(func);
-    },
-    run: (...params) => {
-      const finall = params.pop();
+const qot = conf => {
+  if (conf && conf.ready) {
+    let step = 0;
 
-      let func = funcs.shift();
+    return {
+      add: (...func) => {
+        funcs = funcs.concat(func);
 
-      let runner = f => {
         const tick = (...params) => {
-          func = funcs.shift();
-          if (func) runner(func.bind(null, tick, ...params));
-          else !finall || finall(...params);
+          step++;
+          funcs.shift();
+
+          let interval = setInterval(() => {
+            if (funcs[0]) {
+              funcs[0](tick, ...params);
+              clearInterval(interval);
+            }
+          });
         };
 
-        f.bind(null, tick, ...params)();
-      };
+        if (step === 0) funcs[step](tick);
+      },
+    };
+  } else {
+    return {
+      add: (...func) => {
+        funcs = funcs.concat(func);
+      },
+      run: (...params) => {
+        const finall = params.pop();
 
-      runner(func);
-    },
-  };
+        let func = funcs.shift();
+
+        let runner = f => {
+          const tick = (...params) => {
+            func = funcs.shift();
+            if (func) runner(func.bind(null, tick, ...params));
+            else !finall || finall(...params);
+          };
+
+          f.bind(null, tick, ...params)();
+        };
+
+        runner(func);
+      },
+    };
+  }
 };
 
-module.exports = qot();
+module.exports = qot;

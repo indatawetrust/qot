@@ -1,7 +1,9 @@
 import test from 'ava';
-let qot = require('./index');
 
-test('add', async t => {
+test('manual', t => {
+
+  let qot = require('./index')();
+
   qot.add((tick, name) => {
     tick(name.toUpperCase());
   });
@@ -20,4 +22,32 @@ test('add', async t => {
       name,
     );
   });
+});
+
+test('automatic', async t => {
+
+  let qot = require('./index')({ ready: true });
+
+  qot.add((tick) => {
+    tick("ahmet".toUpperCase());
+  });
+
+  qot.add((tick, name) => {
+    tick({
+      name,
+    })
+  });
+
+  let name = await new Promise(resolve => {
+    qot.add((tick, name) => {
+      resolve(name)
+    });
+  })
+
+  t.deepEqual(
+    {
+      name: 'AHMET',
+    },
+    name,
+  );
 });
